@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="user-profile">
+    <h1>{{ user.username }} 的资料</h1>
+
+    <div class="meta">
+        <p><strong>邮箱:</strong> {{ user.email }}</p>
+        <p><strong>注册时间:</strong> {{ user.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+        <p><strong>最后活跃:</strong> {{ user.updated_at.strftime('%Y-%m-%d %H:%M') }}</p>
+        <p><strong>文章数量:</strong> {{ posts|length }}</p>
+    </div>
+
+    {% if current_user == user %}
+    <div class="profile-actions">
+        <a href="{{ url_for('posts.create_post') }}" class="btn btn-primary">发布新文章</a>
+    </div>
+    {% endif %}
+
+    <h2>发布的文章 ({{ posts|length }})</h2>
+
+    <div class="post-list">
+        {% if posts %}
+            {% for post in posts %}
+            <div class="post-item">
+                <h3><a href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h3>
+                <div class="meta">
+                    发布于: {{ post.created_at.strftime('%Y-%m-%d %H:%M') }} |
+                    分类: {% if post.category %}<a href="{{ url_for('main.category_posts', slug=post.category.slug) }}">{{ post.category.name }}</a>{% else %}无{% endif %} |
+                    评论: {{ post.comments_count }}  <!-- 修复这里：使用 comments_count 属性 -->
+                </div>
+                <div class="content-preview">
+                    {{ post.content_html|truncate(150, True)|safe if post.content_html else post.content|truncate(150)|safe }}
+                </div>
+                <a href="{{ url_for('posts.post', post_id=post.id) }}" class="read-more">阅读全文 &raquo;</a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>该用户还没有发布任何文章。</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

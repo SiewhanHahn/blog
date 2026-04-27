@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="tag-posts">
+    <h1>标签: {{ tag.name }}</h1>
+    
+    <div class="post-list">
+        {% if posts %}
+            {% for post in posts %}
+            <div class="post-item">
+                <h2><a href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
+                <div class="meta">
+                    作者: <a href="{{ url_for('main.user_profile', username=post.author.username) }}">{{ post.author.username }}</a> |
+                    发布于: {{ post.created_at.strftime('%Y-%m-%d %H:%M') }} |
+                    分类: {% if post.category %}<a href="{{ url_for('main.category_posts', slug=post.category.slug) }}">{{ post.category.name }}</a>{% else %}无{% endif %}
+                </div>
+                <div class="content-preview">
+                    {{ post.content_html | truncate(200, True) | safe }}
+                </div>
+                <a href="{{ url_for('posts.post', post_id=post.id) }}" class="read-more">阅读更多 &raquo;</a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>该标签下还没有文章。</p>
+        {% endif %}
+    </div>
+    
+    <div class="back-link">
+        <a href="{{ url_for('main.index') }}">&laquo; 返回首页</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-content">
+        <h1>429 - 访问过于频繁</h1>
+        <div class="error-icon">🚫</div>
+        <p class="error-message">您的请求频率过高，请稍后再试。</p>
+        <p class="error-description">为了保护系统安全，我们对访问频率进行了限制。</p>
+        
+        <div class="rate-limit-info">
+            <div class="info-box">
+                <h3>为什么会出现这个错误？</h3>
+                <ul>
+                    <li>短时间内发送了太多请求</li>
+                    <li>快速连续点击按钮或链接</li>
+                    <li>使用自动化工具访问网站</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <h3>如何解决？</h3>
+                <ul>
+                    <li>等待几分钟后重试</li>
+                    <li>登录账户获得更高限制</li>
+                    <li>降低操作频率</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="error-actions">
+            <a href="{{ url_for('main.index') }}" class="btn btn-primary">返回首页</a>
+            <button onclick="history.back()" class="btn btn-secondary">返回上页</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-page {
+    text-align: center;
+    padding: 4rem 2rem;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-content h1 {
+    color: #ffc107;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+}
+
+.error-icon {
+    font-size: 4rem;
+    margin: 2rem 0;
+}
+
+.error-message {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.error-description {
+    color: #888;
+    margin-bottom: 2rem;
+}
+
+.rate-limit-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.info-box {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.info-box h3 {
+    color: #495057;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.info-box ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.info-box li {
+    padding: 0.25rem 0;
+    color: #6c757d;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.info-box li:before {
+    content: "•";
+    color: #007bff;
+    position: absolute;
+    left: 0.5rem;
+}
+
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+@media (max-width: 768px) {
+    .error-content h1 {
+        font-size: 2rem;
+    }
+    
+    .rate-limit-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .error-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 200px;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="category-form">
+    <h1>创建新分类</h1>
+    
+    <form method="POST" action="{{ url_for('categories.create_category') }}">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.name.label }}
+            {{ form.name(class="form-control", placeholder="输入分类名称") }}
+            {% if form.name.errors %}
+                <span class="form-error">{{ form.name.errors[0] }}</span>
+            {% endif %}
+            <small class="form-text text-muted">分类名称将显示在网站上</small>
+        </div>
+
+        <div class="form-group">
+            {{ form.slug.label }}
+            {{ form.slug(class="form-control", placeholder="输入URL标识") }}
+            {% if form.slug.errors %}
+                <span class="form-error">{{ form.slug.errors[0] }}</span>
+            {% endif %}
+            <small class="form-text text-muted">
+                URL标识应该是英文、数字和连字符的组合，例如: "tech-tutorial"
+            </small>
+        </div>
+
+        <div class="form-actions">
+            <a href="{{ url_for('categories.list_categories') }}" class="btn btn-secondary">取消</a>
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+
+    <div class="category-info">
+        <h3>关于分类</h3>
+        <ul>
+            <li>分类用于对文章进行分组和组织</li>
+            <li>每个分类需要一个唯一的名称和URL标识</li>
+            <li>URL标识将用于分类页面的网址</li>
+            <li>创建分类后，用户可以在发布文章时选择分类</li>
+        </ul>
+    </div>
+</div>
+
+<style>
+.category-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.category-info {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.category-info h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.category-info ul {
+    margin-bottom: 0;
+}
+
+.category-info li {
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.form-text.text-muted {
+    font-size: 0.875rem;
+    color: #6c757d !important;
+    margin-top: 5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+.form-error {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 5px;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .category-form {
+        padding: 0 15px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="search-page">
+    <h1>搜索文章</h1>
+    
+    <div class="search-form">
+        <form method="POST" action="{{ url_for('search.search') }}">
+            {{ form.hidden_tag() }}
+            <div class="form-group" style="display: flex; gap: 10px;">
+                {{ form.q(class="form-control", placeholder="输入关键词搜索文章...") }}
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+            {% if form.q.errors %}
+                <span class="form-error">{{ form.q.errors[0] }}</span>
+            {% endif %}
+        </form>
+    </div>
+
+    {% if request.method == 'POST' %}
+    <div class="search-results">
+        <h2>搜索结果</h2>
+        
+        {% if posts %}
+            <p>找到 {{ posts|length }} 篇相关文章：</p>
+            
+            <div class="post-list">
+                {% for post in posts %}
+                <div class="post-item">
+                    <h3>
+                        {% if post.id and post.id > 10 %}
+                            <a href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a>
+                        {% else %}
+                            {{ post.title }}
+                        {% endif %}
+                    </h3>
+                    <div class="meta">
+                        作者:
+                        {% if post.author.username == 'Database' %}
+                            {{ post.author.username }}
+                        {% else %}
+                            <a href="{{ url_for('main.user_profile', username=post.author.username) }}">{{ post.author.username }}</a>
+                        {% endif %}
+                        |
+                        {# 安全的时间显示处理 #}
+                        {% if post.created_at and post.created_at.__class__.__name__ == 'datetime' %}
+                            发布于: {{ post.created_at.strftime('%Y-%m-%d %H:%M') }} |
+                        {% else %}
+                            发布于: 实时数据 |
+                        {% endif %}
+                        分类: {% if post.category %}<a href="{{ url_for('main.category_posts', slug=post.category.slug) }}">{{ post.category.name }}</a>{% else %}无{% endif %} |
+                        评论: {{ post.comments_count }}
+                    </div>
+                    <div class="content-preview">
+                        {{ post.content_html|truncate(200, True)|safe if post.content_html else post.content|truncate(200)|safe }}
+                    </div>
+                    {% if post.id and post.id > 10 %}
+                        <a href="{{ url_for('posts.post', post_id=post.id) }}" class="read-more">阅读全文 &raquo;</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-results">
+                <p>没有找到相关的文章。</p>
+                <p>建议：</p>
+                <ul>
+                    <li>检查关键词拼写</li>
+                    <li>尝试使用其他关键词</li>
+                    <li>减少关键词数量</li>
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="search-tips">
+        <h3>搜索提示</h3>
+        <div class="tips-content">
+            <p>🔍 <strong>搜索功能说明：</strong></p>
+            <ul>
+                <li>在搜索框中输入关键词，系统会在文章标题和内容中搜索</li>
+                <li>支持中文和英文关键词搜索</li>
+                <li>搜索结果按相关性排序</li>
+                <li>如果没有输入关键词，将显示最新的5篇文章</li>
+            </ul>
+
+            <p style="margin-top: 20px; padding: 10px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px;">
+                <strong>注意：</strong> 当前搜索功能包含 SQL 注入演示，请勿在生产环境中使用未经处理的 SQL 查询。
+            </p>
+
+            <div style="margin-top: 15px; padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px;">
+                <strong>SQL注入演示示例：</strong>
+                <ul style="margin-bottom: 0;">
+                    <li><code>' OR '1'='1</code> - 显示所有文章</li>
+                    <li><code>' UNION SELECT 1,database(),version(),user(),5,6,7,8 -- </code> - 获取数据库信息</li>
+                    <li><code>' UNION SELECT 1,username,email,password_hash,5,6,7,8 FROM user -- </code> - 获取用户数据</li>
+                </ul>
+            </div>
+        </div>
+        
+        {% if posts %}
+        <div class="recent-posts">
+            <h3>最新文章</h3>
+            <div class="post-list">
+                {% for post in posts %}
+                <div class="post-item">
+                    <h4><a href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h4>
+                    <div class="meta">
+                        作者: {{ post.author.username }} | 发布于: {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}
+                    </div>
+                    <div class="content-preview">
+                        {{ post.content_html|truncate(150, True)|safe if post.content_html else post.content|truncate(150)|safe }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

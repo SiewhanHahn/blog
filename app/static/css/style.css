@@ -1,0 +1,671 @@
+/* app/static/css/style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding-top: 20px;
+    min-height: 70px;
+    border-bottom: #77aaff 3px solid;
+}
+
+header a {
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+header ul {
+    padding: 0;
+    list-style: none;
+}
+
+header li {
+    display: inline;
+    padding: 0 15px 0 15px;
+}
+
+header #branding {
+    float: left;
+}
+
+header #branding h1 {
+    margin: 0;
+}
+
+header nav {
+    float: right;
+    margin-top: 10px;
+}
+
+header .highlight, header .current a {
+    color: #77aaff;
+    font-weight: bold;
+}
+
+header a:hover {
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Flash Messages */
+.flash-message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.flash-message.success {
+    background-color: #28a745; /* Green */
+}
+
+.flash-message.info {
+    background-color: #17a2b8; /* Blue-ish */
+}
+
+.flash-message.warning {
+    background-color: #ffc107; /* Yellow */
+    color: #333;
+}
+
+.flash-message.danger {
+    background-color: #dc3545; /* Red */
+}
+
+/* Forms */
+form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form textarea,
+form select {
+    width: calc(100% - 22px); /* Account for padding and border */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+form button[type="submit"],
+form input[type="submit"] {
+    display: inline-block;
+    background: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+form button[type="submit"]:hover,
+form input[type="submit"]:hover {
+    background: #555;
+}
+
+.form-error {
+    color: #dc3545; /* Red for errors */
+    font-size: 0.9em;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Post List */
+.post-list {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.post-item {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.post-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.post-item h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.post-item .meta {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.post-item .meta a {
+    color: #555;
+    text-decoration: none;
+}
+
+.post-item .meta a:hover {
+    text-decoration: underline;
+}
+
+.post-item .content-preview {
+    margin-top: 10px;
+    max-height: 100px; /* Limit preview height */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+.read-more {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Pagination */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a, .pagination span {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #333;
+    border-radius: 4px;
+}
+
+.pagination a:hover {
+    background-color: #eee;
+}
+
+.pagination .current-page {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+.pagination .disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Single Post Page */
+.single-post {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.single-post h1 {
+    margin-top: 0;
+    color: #333;
+}
+
+.single-post .post-meta {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.single-post .post-meta a {
+    color: #555;
+    text-decoration: none;
+}
+.single-post .post-meta a:hover {
+    text-decoration: underline;
+}
+
+.single-post .post-content {
+    margin-bottom: 30px;
+}
+
+.single-post .post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+
+/* Comments Section */
+.comments-section {
+    margin-top: 40px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.comments-section h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.comment-item {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.comment-item .comment-meta {
+    font-size: 0.85em;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.comment-item .comment-content {
+    margin-top: 5px;
+}
+
+.comment-item .comment-content p {
+    margin: 0;
+}
+
+/* User Profile */
+.user-profile {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.user-profile h1 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.user-profile .meta {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.user-profile h2 {
+    margin-top: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+/* Admin Dashboard */
+.admin-dashboard {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.admin-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+}
+
+.stat-box {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    flex: 1;
+    margin: 0 10px;
+}
+
+.stat-box h3 {
+    margin-top: 0;
+    color: #007bff;
+}
+
+.stat-box p {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.log-entries {
+    margin-top: 30px;
+}
+
+.log-entries h3 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.log-entry-item {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.log-entry-item span {
+    display: block;
+}
+
+.log-entry-item .timestamp {
+    color: #6c757d;
+}
+
+footer {
+    padding: 20px;
+    margin-top: 20px;
+    color: #fff;
+    background-color: #333;
+    text-align: center;
+}
+
+/* 补充样式 */
+
+/* 表单样式增强 */
+.form-actions {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font-size: inherit;
+}
+
+.btn-link:hover {
+    color: #0056b3;
+}
+
+/* 认证表单 */
+.auth-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.auth-links {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.auth-links a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+.auth-prompt {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/* 文章表单 */
+.post-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 评论表单 */
+.comment-form {
+    margin-bottom: 30px;
+}
+
+.comments-list {
+    margin-top: 20px;
+}
+
+.no-comments {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* 个人资料页面 */
+.profile-actions {
+    margin: 20px 0;
+}
+
+/* 管理后台 */
+.action-buttons {
+    margin: 20px 0;
+}
+
+.action-buttons .btn {
+    margin-right: 10px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 10px;
+    }
+
+    header nav {
+        float: none;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    header li {
+        display: block;
+        padding: 5px 0;
+    }
+
+    .admin-stats {
+        flex-direction: column;
+    }
+
+    .stat-box {
+        margin: 10px 0;
+    }
+
+    .form-actions {
+        text-align: center;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+/* 搜索页面样式 */
+.search-page {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.search-form {
+    margin-bottom: 30px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.search-form .form-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-form input[type="text"] {
+    flex: 1;
+}
+
+.search-results {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.search-results h2 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: #6c757d;
+}
+
+.no-results ul {
+    text-align: left;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.search-tips {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.tips-content {
+    margin-bottom: 30px;
+}
+
+.tips-content ul {
+    margin-left: 20px;
+}
+
+.tips-content li {
+    margin-bottom: 8px;
+}
+
+.recent-posts {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.recent-posts h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .search-form .form-group {
+        flex-direction: column;
+    }
+
+    .search-form input[type="text"] {
+        width: 100%;
+    }
+
+    .search-form .btn {
+        width: 100%;
+    }
+}

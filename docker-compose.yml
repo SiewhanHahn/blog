@@ -7,7 +7,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - DATABASE_URL=mysql+pymysql://blog_user:blog_password@mysql_db:3306/blog_db
+      - DATABASE_URL=mysql+pymysql://test:test123@mysql_db:3306/blog_db
       - REDIS_URL=redis://redis_cache:6379/0
       - SECRET_KEY=key_123
     depends_on:

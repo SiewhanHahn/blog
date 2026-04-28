@@ -19,7 +19,7 @@ services:
   mysql_db:
     image: mysql:8.0
     ports:
-      - "3306:3306"
+      - "3307:3306"  # 防止主机也运行了mysql服务导致端口冲突
     environment:
       - MYSQL_ROOT_PASSWORD=toor
       - MYSQL_DATABASE=blog_db

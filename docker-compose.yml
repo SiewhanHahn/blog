@@ -1,0 +1,42 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=mysql+pymysql://blog_user:blog_password@mysql_db:3306/blog_db
+      - REDIS_URL=redis://redis_cache:6379/0
+      - SECRET_KEY=key_123
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+      redis_cache:
+        condition: service_started
+
+  mysql_db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=toor
+      - MYSQL_DATABASE=blog_db
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test123
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis_cache:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  mysql_data:

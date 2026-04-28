@@ -17,3 +17,7 @@ docs/
 
 # DB
 *.sqlite3
+
+# Docker and Environments
+.env
+mysql_data/

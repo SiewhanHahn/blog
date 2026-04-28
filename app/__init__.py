@@ -8,6 +8,7 @@ from flask_limiter.util import get_remote_address
 from flask_moment import Moment
 from config import Config
 import os
+import hashlib
 
 # 初始化扩展
 db = SQLAlchemy()  # 数据库
@@ -35,14 +36,15 @@ def get_identifier():
         return f"user:{current_user.id}"
 
     user_agent = request.headers.get('User-Agent', '')[:50]
-    identifier = f"ip:{get_remote_address()}:{hash(user_agent) % 10000}"
+    # 修复：使用 md5 替代内置的 hash() 函数，避免 Python 3 的 hash 随机化导致标识符变动
+    ua_hash = hashlib.md5(user_agent.encode('utf-8')).hexdigest()[:8]
+    identifier = f"ip:{get_remote_address()}:{ua_hash}"
     return identifier
 
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-
 
     # 初始化扩展
     db.init_app(app)
@@ -92,7 +94,21 @@ def create_app(config_class=Config):
 
     # 自动创建管理员账号（如果不存在）
     with app.app_context():
-        db.create_all()
+        import time
+        from sqlalchemy.exc import OperationalError
+
+        # 增加数据库启动重试机制 (防止 Docker 环境中后端快于 MySQL 启动)
+        max_retries = 5
+        for i in range(max_retries):
+            try:
+                db.create_all()
+                break
+            except OperationalError as e:
+                if i == max_retries - 1:
+                    print("数据库连接失败，已达到最大重试次数！")
+                    raise e
+                print(f"数据库未就绪，等待重试 ({i+1}/{max_retries})...")
+                time.sleep(3)
 
         from app.models import User, Role
 

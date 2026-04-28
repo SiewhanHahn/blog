@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from sqlalchemy import event  # 修复 1：引入原生的 sqlalchemy event
 from app import db, login, bcrypt
 from flask_login import UserMixin
 from markdown import markdown
@@ -112,16 +113,12 @@ class Post(db.Model):
                         'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
                         'h1', 'h2', 'h3', 'p', 'img']
         allowed_attrs = {'*': ['class'], 'a': ['href', 'rel'], 'img': ['src', 'alt']}
-        # 用户输入的Markdown转换为HTML
-        # 安全处理链接，防止恶意跳转
-        # 移除所有不在白名单中的 HTML 标签和属性
-        # 在清理后的 HTML 中安全地识别和转换链接
         target.content_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
             tags=allowed_tags, attributes=allowed_attrs, strip=True))
 
-
-db.event.listen(Post.content, 'set', Post.on_changed_content)
+# 修复 2：使用原生的 event.listen
+event.listen(Post.content, 'set', Post.on_changed_content)
 
 
 class Comment(db.Model):
@@ -146,7 +143,8 @@ class Comment(db.Model):
             markdown(value, output_format='html'),
             tags=allowed_tags, attributes=allowed_attrs, strip=True))
 
-db.event.listen(Comment.content, 'set', Comment.on_changed_content)
+# 修复 3：使用原生的 event.listen
+event.listen(Comment.content, 'set', Comment.on_changed_content)
 
 
 class LogEntry(db.Model):

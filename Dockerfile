@@ -19,5 +19,5 @@ COPY . /app/
 # 暴露 Flask 默认端口
 EXPOSE 5000
 
-# 启动应用
-CMD ["python", "run.py"]
+# 启动应用 (已修复为 app.py)
+CMD ["python", "app.py"]

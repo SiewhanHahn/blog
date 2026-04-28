@@ -7,9 +7,11 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - DATABASE_URL=mysql+pymysql://test:test123@mysql_db:3306/blog_db
+      # 推荐在同级目录创建一个 .env 文件来覆盖这些安全变量
+      - DATABASE_URL=mysql+pymysql://${MYSQL_USER:-blog_user}:${MYSQL_PASSWORD:-SecurePass123!}@mysql_db:3306/${MYSQL_DATABASE:-blog_db}
       - REDIS_URL=redis://redis_cache:6379/0
-      - SECRET_KEY=key_123
+      - SECRET_KEY=${SECRET_KEY:-ChangeThisSecretKeyImmediately!}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-AdminPass123!}
     depends_on:
       mysql_db:
         condition: service_healthy
@@ -21,10 +23,10 @@ services:
     ports:
       - "3307:3306"  # 防止主机也运行了mysql服务导致端口冲突
     environment:
-      - MYSQL_ROOT_PASSWORD=toor
-      - MYSQL_DATABASE=blog_db
-      - MYSQL_USER=test
-      - MYSQL_PASSWORD=test123
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-SuperSecretRootPass!}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-blog_db}
+      - MYSQL_USER=${MYSQL_USER:-blog_user}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-SecurePass123!}
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:

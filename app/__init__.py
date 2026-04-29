@@ -12,6 +12,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from config import Config
 import os
 import hashlib
+from flask_wtf.csrf import CSRFProtect # [新增导入]
 
 # 初始化扩展
 db = SQLAlchemy()
@@ -21,6 +22,8 @@ bcrypt = Bcrypt()
 limiter = Limiter(key_func=get_remote_address)
 moment = Moment()
 admin_ext = Admin(name='博客管理后台', template_mode='bootstrap4')
+csrf = CSRFProtect() # [新增实例]
+
 
 # 登录配置
 login.login_view = 'auth.login'
@@ -216,7 +219,7 @@ def create_app(config_class=Config):
     @app.cli.command("create-sample-data")
     def create_sample_data_command():
         import random
-        from datetime import datetime, timedelta
+        from datetime import datetime, timedelta, timezone
         from app.models import User, Post, Comment, Category, Tag, Role
         print("开始创建样本数据...")
         users_data = [
@@ -254,7 +257,7 @@ def create_app(config_class=Config):
                     content=post_data['content'],
                     author=author,
                     category=post_data['category'],
-                    created_at=datetime.utcnow() - timedelta(days=random.randint(1, 30))
+                    created_at=datetime.now(timezone.utc) - timedelta(days=random.randint(1, 30))
                 )
                 db.session.add(post)
             db.session.commit()

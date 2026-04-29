@@ -18,6 +18,7 @@
         |
         <a href="{{ url_for('posts.edit_post', post_id=post.id) }}">编辑</a> |
         <form method="POST" action="{{ url_for('posts.delete_post', post_id=post.id) }}" style="display: inline;" onsubmit="return confirm('确定要删除这篇文章吗？');">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <button type="submit" class="btn-link">删除</button>
         </form>
         {% endif %}
@@ -59,6 +60,7 @@
                 {{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}
                 {% if current_user == comment.author or current_user.is_admin or current_user == post.author %}
                 <form method="POST" action="{{ url_for('comments.delete_comment', comment_id=comment.id) }}" style="display: inline;" onsubmit="return confirm('确定要删除这条评论吗？');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <button type="submit" class="btn-link">删除</button>
                 </form>
                 {% endif %}

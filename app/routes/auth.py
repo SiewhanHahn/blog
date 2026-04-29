@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 from app import db, limiter
 from app.forms import LoginForm, RegistrationForm
 from app.models import User, Role, LogEntry
-from datetime import datetime
+from datetime import datetime, timezone
 from app.routes.utils import log_security_event # 导入公共函数
 
 bp = Blueprint('auth', __name__)
@@ -12,7 +12,7 @@ bp = Blueprint('auth', __name__)
 @bp.before_app_request
 def before_request_auth():
     if current_user.is_authenticated:
-        current_user.updated_at = datetime.utcnow()
+        current_user.updated_at = datetime.now(timezone.utc)
         db.session.commit()
     log_security_event(f"Request to {request.path}", user_id=current_user.id if current_user.is_authenticated else None)
 

@@ -12,7 +12,7 @@ ENV PYTHONUNBUFFERED=1
 COPY requirements.txt /app/
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt && \
-    pip install --no-cache-dir gunicorn  # 修复：新增安装生产级 WSGI 服务器
+    pip install --no-cache-dir gunicorn
 
 # 复制整个项目代码
 COPY . /app/

@@ -12,7 +12,6 @@ from flask_wtf.csrf import CSRFProtect
 from werkzeug.middleware.proxy_fix import ProxyFix
 from config import Config
 import os
-import hashlib
 
 # 初始化扩展
 db = SQLAlchemy()
@@ -22,7 +21,6 @@ bcrypt = Bcrypt()
 limiter = Limiter(key_func=get_remote_address)
 moment = Moment()
 csrf = CSRFProtect()
-# 修复：移除 template_mode='bootstrap4'，Flask-Admin 2.x 默认已支持现代 UI
 admin_ext = Admin(name='博客管理后台')
 
 # 登录配置
@@ -80,7 +78,7 @@ def create_app(config_class=Config):
         from sqlalchemy.exc import OperationalError
         from app.models import User, Post, Category, Tag, Comment, Role, LogEntry
 
-        # 修复：优化视图注册逻辑，防止重复加载
+        # 优化视图注册逻辑，防止重复加载
         if len(admin_ext._views) <= 1:
             admin_ext.add_view(SecureModelView(User, db.session, name='用户管理'))
             admin_ext.add_view(SecureModelView(Post, db.session, name='文章管理'))
@@ -105,5 +103,18 @@ def create_app(config_class=Config):
             admin_user.set_password(os.environ.get('ADMIN_PASSWORD', 'admin123_ChangeMe!'))
             db.session.add(admin_user)
             db.session.commit()
+
+        # ======== 核心修复：自动创建默认分类 ========
+        if Category.query.count() == 0:
+            default_categories = [
+                Category(name='技术教程', slug='tech-tutorial'),
+                Category(name='生活随笔', slug='life-essay'),
+                Category(name='读书笔记', slug='book-notes')
+            ]
+            for category in default_categories:
+                db.session.add(category)
+            db.session.commit()
+            print("已自动创建默认分类！")
+        # ==========================================
 
     return app
